@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\MarcasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('categorias', [CategoriaController::class,'mostrarCategorias']);
+Route::get('mostrarListaMarcas',[MarcasController::class, 'mostrarMarcas']);
+Route::post('registrarMarca', [MarcasController::class,'registrarMarcas']);
