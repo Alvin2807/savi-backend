@@ -90,9 +90,33 @@ class MarcasController extends Controller
      * @param  \App\Models\Marcas  $marcas
      * @return \Illuminate\Http\Response
      */
-    public function edit(Marcas $marcas)
+    public function editarMarcas(Request $request)
     {
-        //
+        $id_marca = $request->input('id_marca');
+        $data['nombre_marca'] = strtoupper($request->input('nombre_marca'));
+        $verificar = Marcas::where('nombre_marca', $data['nombre_marca'])->count();
+
+        if ($verificar) {
+            return [
+                "ok" => false,
+                "verificar" => 'Lo sentimos ya existe una marca con el nombre de '
+            ];
+        }
+
+        try {
+            $modificarMarca = Marcas::where('id_marca', $id_marca)->update($data);
+            return response()->json([
+                "ok" =>true,
+                "data" =>$modificarMarca,
+                "modificado" => 'Se guardo satisfactoriamente'
+            ]);
+        } catch (\Exception $errorModificarMarca) {
+            return response()->json([
+                "ok" =>false,
+                "data" =>$errorModificarMarca->getMessage(),
+                "error" => 'Hubo un error consulte con el administrador de sistema.'
+            ]);
+        }
     }
 
     /**
