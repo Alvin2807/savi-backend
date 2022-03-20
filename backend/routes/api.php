@@ -23,3 +23,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('categorias', [CategoriaController::class,'mostrarCategorias']);
 Route::get('mostrarListaMarcas',[MarcasController::class, 'mostrarMarcas']);
 Route::post('registrarMarca', [MarcasController::class,'registrarMarcas']);
+Route::put('modificarMarca',[MarcasController::class, 'editarMarcas']);
