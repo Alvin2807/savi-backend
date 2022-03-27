@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\MarcasController;
+use App\Http\Controllers\ModelosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,4 @@ Route::get('categorias', [CategoriaController::class,'mostrarCategorias']);
 Route::get('mostrarListaMarcas',[MarcasController::class, 'mostrarMarcas']);
 Route::post('registrarMarca', [MarcasController::class,'registrarMarcas']);
 Route::put('modificarMarca',[MarcasController::class, 'editarMarcas']);
+Route::get('mostrarModelos',[ModelosController::class,'mostrarModelo']);
