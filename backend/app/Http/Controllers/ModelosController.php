@@ -34,9 +34,30 @@ class ModelosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function registrarModelos(Request $request)
     {
-        //
+        $id_marca = $request->input('id_marca');
+        $item = $request->input('modelos');
+
+        try {
+          for ($i=0; $i <count($item) ; $i++) {
+              $registrarModelo = new Modelos();
+              $registrarModelo->fk_marca = $id_marca;
+              $registrarModelo->nombre_modelo =  strtoupper( $item[$i]['nombre_modelo']);
+              $registrarModelo->save();
+              return response()->json([
+                "ok" =>true,
+                "data" =>$registrarModelo,
+                "registroModelo" => 'Se guardo satisfactoriamente'
+              ]);
+          }
+        } catch (\Exception $e) {
+            return response()->json([
+                "ok" =>false,
+                "data" =>$e->getMessage(),
+                "mensajeErrorModelo" => 'Hubo un error, consulte con el administrador del sistema.'
+            ]);
+        }
     }
 
     /**
@@ -63,9 +84,33 @@ class ModelosController extends Controller
      * @param  \App\Models\Modelos  $modelos
      * @return \Illuminate\Http\Response
      */
-    public function edit(Modelos $modelos)
+    public function editarModelos(Request $request)
     {
-        //
+        $id_modelo = $request->input('id_modelo');
+        $data['nombre_modelo'] = strtoupper($request->input('nombre_modelo'));
+        $verificar = Modelos::where('nombre_modelo', $data['nombre_modelo'])->count();
+
+        if ($verificar) {
+            return [
+                "ok" =>false,
+                "verificar" => 'Lo sentimos ya existe un modelo con el nombre de '. $data['nombre_modelo']
+            ];
+        }
+        try {
+           $editarModelo = Modelos::where('id_modelo',$id_modelo)->update($data);
+           return response()->json([
+            "ok" =>true,
+            "data" =>$editarModelo,
+            "modificado" => 'Se guardo satisfactoriamente'
+           ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                "ok" =>false,
+                "data" =>$e->getMessage(),
+                "error" => 'Hubo un error consulte con el administrador de sistema.'
+            ]);
+        }
     }
 
     /**
