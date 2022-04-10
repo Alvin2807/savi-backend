@@ -33,9 +33,36 @@ class CategoriaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function registrarCategorias(Request $request)
     {
-        //
+
+        try {
+            $categoria = strtoupper($request->input('descripcion'));
+            $validar = Categoria::where('descripcion',$categoria)->count();
+            if ($validar) {
+                return [
+                    "ok" => false,
+                    "validar" => 'Ya existe una categoría '.$categoria
+                ];
+            } else {
+                $registrarCategoria = new Categoria();
+                $registrarCategoria->descripcion = $categoria;
+                $registrarCategoria->estado = 'Vigente';
+                $registrarCategoria->save();
+                return response()->json([
+                 "ok" => true,
+                 "data" =>$registrarCategoria,
+                 "aprobado" => 'Se guardo satisfactoriamente'
+                ]);
+            }
+
+        } catch (\Throwable $e) {
+            return response()->json([
+                "ok" =>false,
+                "data" =>$e->getMessage(),
+                "error" => 'Hubo un error consulte con el administrador de sistema.'
+            ]);
+        }
     }
 
     /**
@@ -62,9 +89,32 @@ class CategoriaController extends Controller
      * @param  \App\Models\Categoria  $categoria
      * @return \Illuminate\Http\Response
      */
-    public function edit(Categoria $categoria)
+    public function editarCategoria(Request $request)
     {
-        //
+        $id_categoria = $request->input('id_categoria');
+        $data['descripcion'] = strtoupper($request->input('descripcion'));
+        $verificar = Categoria::where('descripcion',$data['descripcion'])->count();
+        if ($verificar) {
+            return [
+                "ok" =>false,
+                "verificar" => 'Ya existe una categoría '.$data['descripcion']
+            ];
+        }
+        try {
+            $modificarCategoria = Categoria::where('id_categoria',$id_categoria)->update($data);
+            return response()->json([
+                "ok" =>true,
+                "data" =>$modificarCategoria,
+                "modificado" =>'Se guardo satisfactoriamente'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                "ok" =>false,
+                "data" =>$e->getMessage(),
+                "error" => 'Hubo un error consulte con el administrador de sistema.'
+            ]);
+        }
     }
 
     /**
