@@ -28,3 +28,5 @@ Route::put('modificarMarca',[MarcasController::class, 'editarMarcas']);
 Route::get('mostrarModelos',[ModelosController::class,'mostrarModelo']);
 Route::post('registrarModelo',[ModelosController::class,'registrarModelos']);
 Route::put('editarModelo',[ModelosController::class,'editarModelos']);
+Route::post('registrarCategoria',[CategoriaController::class,'registrarCategorias']);
+Route::put('modificarCategoria',[CategoriaController::class,'editarCategoria']);
