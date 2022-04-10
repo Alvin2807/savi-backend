@@ -42,7 +42,7 @@ class MarcasController extends Controller
             if ($validar) {
                return [
                 "ok"    => false,
-                "validar"  => 'Lo sentimos ya existe una marca con el nombre de '
+                "validar"  => 'Ya existe una marca ' .$nombre_marca
                ];
 
              } else {
@@ -99,7 +99,7 @@ class MarcasController extends Controller
         if ($verificar) {
             return [
                 "ok" => false,
-                "verificar" => 'Lo sentimos ya existe una marca con el nombre de '
+                "verificar" => 'Ya existe una marca ' .$data['nombre_marca']
             ];
         }
 
