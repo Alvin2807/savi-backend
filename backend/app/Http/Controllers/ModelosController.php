@@ -93,7 +93,7 @@ class ModelosController extends Controller
         if ($verificar) {
             return [
                 "ok" =>false,
-                "verificar" => 'Lo sentimos ya existe un modelo con el nombre de '. $data['nombre_modelo']
+                "verificar" => 'Ya existe un modelo '. $data['nombre_modelo']
             ];
         }
         try {
